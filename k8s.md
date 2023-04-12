@@ -75,3 +75,16 @@ kubeadm token create --print-join-command
 # After installation run this command on master plane
 kubectl apply -f https://docs.projectcalico.org/v3.19/manifests/calico.yaml
 kubectl get pods -n kube-system | grep calico
+```
+## Error Handling
+> **Note**
+> The connection to the server 172.31.2.185:6443 was refused - did you specify the right host or port?
+> Make sure your ports is open if your ports already open then use this steps
+
+#### Your Facing like this error then run this command 
+```
+sudo cp /etc/kubernetes/admin.conf $HOME/
+sudo chown $(id -u):$(id -g) $HOME/admin.conf
+export KUBECONFIG=$HOME/admin.conf
+```
+
