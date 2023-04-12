@@ -1,0 +1,53 @@
+Certainly! Here's a step-by-step breakdown of the YAML manifest file for deploying an Nginx container in Kubernetes:
+
+apiVersion: apps/v1: Specifies the API version of the Kubernetes resource being defined, in this case, a Deployment in the apps/v1 API version.
+
+kind: Deployment: Specifies the kind of Kubernetes resource being defined, in this case, a Deployment.
+
+metadata: Provides metadata for the Deployment, such as the name and labels.
+
+name: nginx: Specifies the name of the Deployment, which will be used to identify it in the Kubernetes cluster.
+
+labels: Defines labels for the Deployment, which can be used to identify and filter resources in Kubernetes.
+
+app: nginx: Sets the label "app" to "nginx", which can be used to identify the application associated with this Deployment.
+
+spec: Defines the specification for the Deployment, including the number of replicas, selector, and template.
+
+replicas: 1: Specifies the desired number of replicas for the Deployment, in this case, 1 replica.
+
+selector: Specifies the labels used to select Pods controlled by this Deployment.
+
+matchLabels: Sets the label "app" to "nginx" as the criteria for selecting Pods.
+
+template: Defines the Pod template used to create Pods for the Deployment.
+
+metadata: Provides metadata for the Pod template, including labels.
+
+labels: Defines labels for the Pod template, which can be used to identify and filter Pods.
+
+app: nginx: Sets the label "app" to "nginx" in the Pod template, which matches the selector labels defined earlier.
+
+lovely: "true": Sets an additional label "lovely" to "true" in the Pod template, which can be used for node placement constraint.
+
+spec: Defines the specification for the Pod template, including the containers to run.
+
+containers: Specifies the list of containers to run in the Pod.
+
+name: nginx: Specifies the name of the container, which will be used to identify it within the Pod.
+
+image: nginx:latest: Specifies the Docker image to use for the container, in this case, the latest version of the Nginx image.
+
+ports: Defines the list of ports to expose from the container.
+
+containerPort: 80: Specifies the port number to expose from the container, in this case, port 80, which is the default port for Nginx.
+
+#VERSION/APPS
+In the context of Kubernetes, "apps" refers to an API group that provides resources for managing higher-level application components, such as deployments, replica sets, stateful sets, and daemon sets. The apps API group is used to define and manage declarative configurations for deploying and scaling containerized applications in a Kubernetes cluster.
+
+The apps API group provides higher-level abstractions built on top of the core Kubernetes API group (referred to as core API group), which includes resources like pods, services, and volumes. The resources in the apps API group are specifically designed to define and manage the desired state of applications and their deployments, making it easier to manage complex application deployments in a Kubernetes cluster.
+
+By using the apps API group, you can define and manage application deployments, updates, and rollbacks in a declarative manner, allowing Kubernetes to handle the actual deployment and scaling of containers across the cluster. The apps API group is widely used in Kubernetes deployments to define and manage applications, making it an important concept in Kubernetes application management.
+
+#kind
+
