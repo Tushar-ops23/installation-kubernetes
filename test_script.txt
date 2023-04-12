@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Check if the script is run with root privileges
+if [[ $EUID -ne 0 ]]; then
+  echo "This script must be run with root privileges."
+  exit 1
+fi
+
+# Update the system
+apt update -y && apt upgrade -y
+
+# Install required dependencies
+apt install -y apt-transport-https ca-certificates curl software-properties-common gnupg
+
+# Import Kubernetes GPG key
+curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/kubernetes.gpg
+
+# Add Kubernetes repository for Ubuntu 22.04
+echo "deb https://apt.kubernetes.io/ kubernetes-jammy main" > /etc/apt/sources.list.d/kubernetes.list
+
+# Install Docker
+apt install -y docker.io
+
+# Enable and start Docker service
+systemctl enable docker
+systemctl start docker
+
+# Install Kubernetes components
+apt update -y
+apt install -y kubeadm kubelet kubectl
+
+# Initialize Kubernetes master node
+kubeadm init
+
+# Configure kubectl for the current user
+mkdir -p $HOME/.kube
+cp /etc/kubernetes/admin.conf $HOME/.kube/config
+chown $(id -u):$(id -g) $HOME/.kube/config
+
+# Install network plugin (example: Calico)
+kubectl apply -f https://docs.projectcalico.org/v3.19/manifests/calico.yaml
+
+# Print join command for worker nodes
+echo "Run the following command on worker nodes to join the cluster:"
+kubeadm token create --print-join-command
+
+# Print status of the Kubernetes cluster
+
+# After installation run this command on master plane
+kubectl apply -f https://docs.projectcalico.org/v3.19/manifests/calico.yaml
+kubectl get pods -n kube-system | grep calico
