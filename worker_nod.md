@@ -2,13 +2,17 @@
 ```
 #!/bin/bash
 
+# Take input for k8smaster private IP
+read -p "Enter private IP for k8smaster: " master_private_ip
+
+# Take input for k8sworker1 private IP
+read -p "Enter private IP for k8sworker1: " worker1_private_ip
+
 # Set hostname for k8smaster
 sudo hostnamectl set-hostname "k8smaster"
-master_private_ip="172.31.5.169" # Replace with the actual private IP for k8smaster
 
 # Set hostname for k8sworker1
 sudo hostnamectl set-hostname "k8sworker1"
-worker1_private_ip="172.31.6.17" # Replace with the actual private IP for k8sworker1
 
 # Update /etc/hosts with hostname and private IP entries
 echo "$master_private_ip k8smaster" | sudo tee -a /etc/hosts
