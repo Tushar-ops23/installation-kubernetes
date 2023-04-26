@@ -1,20 +1,25 @@
 # Kubernetes Setup Script
+#!/bin/bash
 
-This script sets up a Kubernetes cluster with one master node and one worker node using `kubeadm`, and installs Docker and Calico network plugin.
+# Get user input for k8smaster hostname and private IP address
+read -p "Enter hostname for k8smaster: " k8smaster_hostname
+read -p "Enter private IP address for k8smaster: " k8smaster_private_ip
 
-```bash
+# Get user input for k8sworker1 hostname and private IP address
+read -p "Enter hostname for k8sworker1: " k8sworker1_hostname
+read -p "Enter private IP address for k8sworker1: " k8sworker1_private_ip
+
 # Set hostname for k8smaster
-sudo hostnamectl set-hostname "k8smaster"
-master_private_ip="172.31.5.169" # Replace with the actual private IP for k8smaster
+sudo hostnamectl set-hostname "$k8smaster_hostname"
 
 # Set hostname for k8sworker1
-sudo hostnamectl set-hostname "k8sworker1"
-worker1_private_ip="172.31.6.17" # Replace with the actual private IP for k8sworker1
+sudo hostnamectl set-hostname "$k8sworker1_hostname"
 
 # Update /etc/hosts with hostname and private IP entries
-echo "$master_private_ip k8smaster" | sudo tee /etc/hosts
-sudo sed -i '/k8sworker1/d' /etc/hosts
-echo "$worker1_private_ip k8sworker1" | sudo tee -a /etc/hosts
+echo "$k8smaster_private_ip $k8smaster_hostname" | sudo tee /etc/hosts
+sudo sed -i "/$k8sworker1_hostname/d" /etc/hosts
+echo "$k8sworker1_private_ip $k8sworker1_hostname" | sudo tee -a /etc/hosts
+
 
 # Disable swap
 sudo swapoff -a
