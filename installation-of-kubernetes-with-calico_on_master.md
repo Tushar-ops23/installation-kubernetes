@@ -3,13 +3,19 @@
 This script sets up a Kubernetes cluster with one master node and one worker node using `kubeadm`, and installs Docker and Calico network plugin.
 
 ```bash
-# Set hostname for k8smaster
-sudo hostnamectl set-hostname "k8smaster"
-master_private_ip="172.31.5.169" # Replace with the actual private IP for k8smaster
+# Set hostname and IP address for k8smaster
+master_hostname="k8smaster"
+read -p "Enter the private IP for k8smaster: " master_private_ip
+sudo hostnamectl set-hostname "${master_hostname}"
+echo "${master_private_ip} ${master_hostname}" | sudo tee -a /etc/hosts
 
-# Set hostname for k8sworker1
-sudo hostnamectl set-hostname "k8sworker1"
-worker1_private_ip="172.31.6.17" # Replace with the actual private IP for k8sworker1
+# Set hostname and IP address for k8sworker1
+worker_hostname="k8sworker1"
+read -p "Enter the private IP for k8sworker1: " worker_private_ip
+sudo hostnamectl set-hostname "${worker_hostname}"
+echo "${worker_private_ip} ${worker_hostname}" | sudo tee -a /etc/hosts
+
+echo "Done setting hostnames and IP addresses."
 
 # Update /etc/hosts with hostname and private IP entries
 echo "$master_private_ip k8smaster" | sudo tee /etc/hosts
