@@ -19,7 +19,7 @@ echo "Done setting hostnames and IP addresses."
 
 # Update /etc/hosts with hostname and private IP entries
 echo "$master_private_ip k8smaster" | sudo tee /etc/hosts
-sudo sed -i '/k8smaster/d' /etc/hosts
+sudo sed -i '/k8sworker1/d' /etc/hosts
 echo "$worker1_private_ip k8sworker1" | sudo tee -a /etc/hosts
 
 # Disable swap
